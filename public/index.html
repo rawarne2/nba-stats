@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> <!-- This might allow searching on heroku since only HTTPS requests are allowed -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -23,6 +23,12 @@
     <title>React App</title>
   </head>
   <body>
+    <script>
+      if(window.location.hostname !== 'localhost'){
+        $('head').append('<meta  http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">') 
+        //this allows requests to be made to https api from https (heroku) but only if it is not localhost 
+      }
+    </script>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
