@@ -98,3 +98,6 @@ export const removeStats = stats => {
 // tests from docs>>   https://github.com/bttmly/nba/blob/28160d5c6416d4b125335625c537251a9221ed7c/test/integration/stats.js
 
 
+//player images: https://nba-players.herokuapp.com/
+
+
