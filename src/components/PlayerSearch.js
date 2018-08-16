@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { fetchPlayer } from '../redux/actions'
+import { fetchPlayer, fetchPlayerStats, removeStats } from '../redux/actions'
 import { connect } from 'react-redux'
 
 
@@ -7,25 +7,35 @@ export class PlayerSearch extends Component {
     constructor(props) {
         super(props)
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange (event) {
         this.props.fetchPlayer(event.target.value)
-        console.log(this.props)
+        // this.props.fetchPlayerStats(this.props.points)
+    }
+
+    handleSubmit (e) {
+        e.preventDefault()
+        this.props.fetchPlayerStats(this.props.fullName)
+        // this.props.removeStats()
     }
 
     render() {
+        // console.log("PROPS",this.props)
         return (
             <div>
-                <p>please use fullname of player with correct spelling</p>
-                <form>
+                <p>please use correct spelling</p>
+                <form 
+                    onSubmit={this.handleSubmit}
+                    onChange={this.handleChange}>
                     <input 
                         placeholder="Player Search"
-                        onChange={this.handleChange}
                         type="text"
                     />
                 </form>
-                <h1>Player ID: { this.props.playerId }</h1>
+                <h1>Player: { this.props.fullName }</h1>
+                <h1>Points: { this.props.points } </h1>
             </div>
         )
     }
@@ -37,18 +47,24 @@ const mapStateToProps = state => {
         teamId: state.teamId,
         fullName: state.fullName,
         isFeching: state.isFeching,
-        error: state.error
+        error: state.error,
+        points: state.points
     }
   }
   const mapDispatchToProps = dispatch => {
       return {
-          fetchPlayer
+          fetchPlayer,
+          fetchPlayerStats,
+          removeStats
       }
   }
   export default connect(mapStateToProps, mapDispatchToProps)(PlayerSearch)
 
 //Because of restrictions from the stats.nba.com API and the 'nba' npm package, only one player can be 
 //shown at a time when typing in player names
+
+//figure out how to load a picture
+//have a box to enter first name and a box for last name
 
 
 /*

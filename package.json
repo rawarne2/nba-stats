@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "cross-fetch": "^2.2.2",
     "nba": "^4.2.2",
     "react": "^16.4.2",
@@ -19,5 +20,4 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
- 
 }
