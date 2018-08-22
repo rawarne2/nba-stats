@@ -1,13 +1,13 @@
 const initialState = {
-    // firstName: '',
-    // lastName: '',
+    firstName: '', 
+    lastName: '',
     playerId: 0,
     teamId: 0,
     fullName: '',
-    // downcaseName: '', 
     isFetching: false,
     error: '',
-    points: 0
+    points: 0,
+    playerImg: null
   }
 
 const playerInfoReducer = (state = initialState, action) => {
@@ -19,22 +19,25 @@ const playerInfoReducer = (state = initialState, action) => {
             isFetching: false, 
             playerId: action.payload.playerId, 
             fullName:action.payload.fullName,
-            teamId: action.payload.teamId })
+            teamId: action.payload.teamId,
+            firstName: action.payload.firstName,
+            lastName: action.payload.lastName,
+        })
       case "FETCH_STATS_SUCCESS": 
         return Object.assign({}, state, {
             isFetching: false, 
             points: action.payload.pts
             })
+      case "PLAYER_IMAGE":
+        return Object.assign({}, state, {
+            isFetching: false,
+            playerImg: action.payload
+        })
       case "FETCH_PLAYER_FAILURE":
         return Object.assign({}, state, { isFetching: false, error: action.error })
-    //   case "REMOVE_PLAYER_STATS":
-    //     const newState = Object.assign({}, state)
-        
       default:
         return state
     }
-  };
+  }
   
-  export default playerInfoReducer;
-
-  //search first and last name separately. account for nickname
+  export default playerInfoReducer

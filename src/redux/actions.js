@@ -1,34 +1,15 @@
-import fetch from 'cross-fetch'
+import fetch from 'cross-fetch' // or 'node-fetch'???
 import NBA from 'nba'
 import store from './store'
 import axios from 'axios'
 
 
-// console.log(NBA.findPlayer('Steph'))
-// NBA.stats.playerInfo({ PlayerID: 201939}).then((res)=>{console.log(res.commonPlayerInfo[0].displayFirstLast, res.commonPlayerInfo[0].height)})
-// NBA.stats.teamStats().then((res) => { console.log(res.find(elem => elem.teamName === "Chicago Bulls")) })
-// NBA.stats.playerStats().then((res) => { return res.leagueDashPlayerStats.find((arr) => { arr.playerName === "Stephen Curry" }) })
-// let allStats = async (name)=> {
-//     let stats = await NBA.stats.playerStats() 
-//     let id = await stats.leagueDashPlayerStats.find((arr) => {
-//         return arr.playerName === name
-//     })
-//     console.log(id)
-// }
-// allStats("stephen curry")
-
 export const FETCH_PLAYER_REQUEST = "FETCH_PLAYER_REQUEST"
 export const FETCH_PLAYER_SUCCESS = "FETCH_PLAYER_SUCCESS"
 export const FETCH_PLAYER_FAILURE = "FETCH_PLAYER_FAILURE"
 export const FETCH_STATS_SUCCESS = "FETCH_STATS_SUCCESS"
-export const REMOVE_PLAYER_STATS = "REMOVE_PLAYER_STATS"
+export const PLAYER_IMAGE = "PLAYER_IMAGE"
 
-
-export const remove = () => {
-    return {
-        type: REMOVE_PLAYER_STATS,
-    }
-}
 
 export const requestPlayer = () => {
   return {
@@ -57,37 +38,44 @@ export const failurePlayer = (error) => {
     }
 } 
 
-export const fetchPlayer = playerName => {
+export const playerImage = (image) => {
+    return {
+        type: PLAYER_IMAGE,
+        payload: image
+    }
+}
+
+export const playerInfo = playerName => {
     store.dispatch(requestPlayer())
     store.dispatch(foundPlayer(NBA.findPlayer(playerName)))
 }
 
 
-
 export const fetchPlayerStats = (name) => {
     store.dispatch(requestPlayer())
-    return NBA.stats.playerStats()
+    NBA.stats.playerStats()
     .then(res => {
         return res.leagueDashPlayerStats
-        .find(val => val.playerName == name)
-        // console.log("STATS>>",stats)
+        .find(val => val.playerName === name)
     })
     .then(res => {
-        console.log("res>>>", res)
         store.dispatch(foundStats(res))
+         let firstName = store.getState().firstName
+         let lastName = store.getState().lastName
+        axios.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
+        .then( res => {
+            store.dispatch(playerImage(res.request.responseURL))
+        }
+    )
     })
     .catch((error) => {
         alert("Somthing went wrong!")
     })
 }
 
-export const removeStats = stats => {
-    store.dispatch(remove())
-}
-//add error handling (in PlayerSearch store.dispatch(failurePlayer(error) when there is an erro))       error is second argument in .then or use try catch
-//only throw an error onSubmit (when you are typing a name and use a space, it might throw an error)
+//add error handling (in PlayerSearch store.dispatch(failurePlayer(error) when there is an error))
+//throw error "player not found" instead of crashing
 //compare players stats. Green background if better, red if worse.
-//start off with common stats but have the option of adding additional stats
 //show trends from year to year
 
 
@@ -95,9 +83,9 @@ export const removeStats = stats => {
 //you have to type it in completely. finding the id first finds the closest guess. 
 
 
-// tests from docs>>   https://github.com/bttmly/nba/blob/28160d5c6416d4b125335625c537251a9221ed7c/test/integration/stats.js
+//tests from docs>>   https://github.com/bttmly/nba/blob/28160d5c6416d4b125335625c537251a9221ed7c/test/integration/stats.js
 
 
-//player images: https://nba-players.herokuapp.com/
-
+//player images: https://nba-players.herokuapp.com/players/:lastName/:firstName
+//player images:>>>> http://stats.nba.com/media/players/230x185/{idPlayer}.png
 

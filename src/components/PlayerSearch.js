@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { fetchPlayer, fetchPlayerStats, removeStats } from '../redux/actions'
+import { playerInfo, fetchPlayerStats, } from '../redux/actions'
 import { connect } from 'react-redux'
+import axios from 'axios'
 
 
 export class PlayerSearch extends Component {
@@ -10,19 +11,17 @@ export class PlayerSearch extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+
     handleChange (event) {
-        this.props.fetchPlayer(event.target.value)
-        // this.props.fetchPlayerStats(this.props.points)
+        this.props.playerInfo(event.target.value)
     }
 
     handleSubmit (e) {
         e.preventDefault()
         this.props.fetchPlayerStats(this.props.fullName)
-        // this.props.removeStats()
     }
 
     render() {
-        // console.log("PROPS",this.props)
         return (
             <div>
                 <p>please use correct spelling</p>
@@ -35,7 +34,8 @@ export class PlayerSearch extends Component {
                     />
                 </form>
                 <h1>Player: { this.props.fullName }</h1>
-                <h1>Points: { this.props.points } </h1>
+                <h1>2017-18 Average PPG: { this.props.points } </h1>
+                <img src={this.props.playerImg} alt={'https://theundefeated.com/wp-content/uploads/2017/05/nba-logo.png'}/>
             </div>
         )
     }
@@ -48,14 +48,17 @@ const mapStateToProps = state => {
         fullName: state.fullName,
         isFeching: state.isFeching,
         error: state.error,
-        points: state.points
+        points: state.points,
+        playerImg: state.playerImg,
+        firstName: state.firstName,
+        lastName: state.lastName,
+
     }
   }
   const mapDispatchToProps = dispatch => {
       return {
-          fetchPlayer,
+          playerInfo,
           fetchPlayerStats,
-          removeStats
       }
   }
   export default connect(mapStateToProps, mapDispatchToProps)(PlayerSearch)
@@ -63,11 +66,18 @@ const mapStateToProps = state => {
 //Because of restrictions from the stats.nba.com API and the 'nba' npm package, only one player can be 
 //shown at a time when typing in player names
 
-//figure out how to load a picture
-//have a box to enter first name and a box for last name
+
+//use a separate component to display the stats <-----------
 
 
 /*
-    This component should allow users to search for a player and get thier ID, name and some basic info. Then you should be able to 
-    click on the name to get a more in depth look at the player's stats. 
+- make in depth stats listed in a new component view
+- add tests
+- clean up state
+- make better action names
+- fix error handing / add form validation
+- show more button 
+- be able to sort stats in main player view
+- use bootstraps for css
+- show loading bar when searching (I know it only takes .5sec to load)
 */
