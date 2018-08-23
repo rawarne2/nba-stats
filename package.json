@@ -7,6 +7,7 @@
     "cross-fetch": "^2.2.2",
     "nba": "^4.2.2",
     "react": "^16.4.2",
+    "react-bootstrap": "^0.32.3",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",

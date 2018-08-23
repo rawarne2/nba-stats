@@ -1,4 +1,3 @@
-import fetch from 'cross-fetch' // or 'node-fetch'???
 import NBA from 'nba'
 import store from './store'
 import axios from 'axios'

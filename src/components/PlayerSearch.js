@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { playerInfo, fetchPlayerStats, } from '../redux/actions'
 import { connect } from 'react-redux'
-import axios from 'axios'
 
 
 export class PlayerSearch extends Component {
@@ -35,7 +34,7 @@ export class PlayerSearch extends Component {
                 </form>
                 <h1>Player: { this.props.fullName }</h1>
                 <h1>2017-18 Average PPG: { this.props.points } </h1>
-                <img src={this.props.playerImg} alt={'https://theundefeated.com/wp-content/uploads/2017/05/nba-logo.png'}/>
+                <img src={this.props.playerImg} alt="" />
             </div>
         )
     }
@@ -81,3 +80,5 @@ const mapStateToProps = state => {
 - use bootstraps for css
 - show loading bar when searching (I know it only takes .5sec to load)
 */
+
+//full player stats view -- parallax scrolling?
