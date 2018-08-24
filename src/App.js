@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import basketball from './basketball.png'
 import './App.css';
-import PlayerSearch from './components/PlayerSearch'
+import PlayerSearch from './components/Container/PlayerSearch'
 import { Provider } from 'react-redux';
 import store from './redux/store'
 

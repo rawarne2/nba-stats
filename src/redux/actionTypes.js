@@ -1,0 +1,5 @@
+export const REQUEST_PLAYER = "REQUEST_PLAYER"
+export const FOUND_PLAYER = "FOUND_PLAYER"
+export const FAILURE_PLAYER = "FAILURE_PLAYER"
+export const FOUND_STATS = "FOUND_STATS"
+export const PLAYER_IMAGE = "PLAYER_IMAGE"

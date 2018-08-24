@@ -12,9 +12,9 @@ const initialState = {
 
 const playerInfoReducer = (state = initialState, action) => {
     switch(action.type) {
-      case "FETCH_PLAYER_REQUEST":
+      case "REQUEST_PLAYER":
         return Object.assign({}, state, { isFetching: true })
-      case "FETCH_PLAYER_SUCCESS": 
+      case "FOUND_PLAYER": 
         return Object.assign({}, state, {
             isFetching: false, 
             playerId: action.payload.playerId, 
@@ -23,7 +23,7 @@ const playerInfoReducer = (state = initialState, action) => {
             firstName: action.payload.firstName,
             lastName: action.payload.lastName,
         })
-      case "FETCH_STATS_SUCCESS": 
+      case "FOUND_STATS": 
         return Object.assign({}, state, {
             isFetching: false, 
             points: action.payload.pts
@@ -33,11 +33,12 @@ const playerInfoReducer = (state = initialState, action) => {
             isFetching: false,
             playerImg: action.payload
         })
-      case "FETCH_PLAYER_FAILURE":
-        return Object.assign({}, state, { isFetching: false, error: action.error })
+      case "FAILURE_PLAYER":
+        return Object.assign({}, state, { isFetching: false, error: action.payload })
       default:
         return state
     }
   }
   
   export default playerInfoReducer
+

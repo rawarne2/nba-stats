@@ -1,56 +1,50 @@
 import NBA from 'nba'
 import store from './store'
 import axios from 'axios'
-
-
-export const FETCH_PLAYER_REQUEST = "FETCH_PLAYER_REQUEST"
-export const FETCH_PLAYER_SUCCESS = "FETCH_PLAYER_SUCCESS"
-export const FETCH_PLAYER_FAILURE = "FETCH_PLAYER_FAILURE"
-export const FETCH_STATS_SUCCESS = "FETCH_STATS_SUCCESS"
-export const PLAYER_IMAGE = "PLAYER_IMAGE"
+import * as types from './actionTypes'
 
 
 export const requestPlayer = () => {
   return {
-    type: FETCH_PLAYER_REQUEST
+    type: types.REQUEST_PLAYER
   }
 }
 
 export const foundPlayer = (name) => {
     return {
-        type: FETCH_PLAYER_SUCCESS,
+        type: types.FOUND_PLAYER,
         payload: name
     }
 }
 
 export const foundStats = (stats) => {
     return {
-        type: FETCH_STATS_SUCCESS,
+        type: types.FOUND_STATS,
         payload: stats
     }
 }
 
 export const failurePlayer = (error) => {
     return {
-        type: FETCH_PLAYER_FAILURE,
-        error
+        type: types.FAILURE_PLAYER,
+        payload: error
     }
 } 
 
 export const playerImage = (image) => {
     return {
-        type: PLAYER_IMAGE,
+        type: types.PLAYER_IMAGE,
         payload: image
     }
 }
 
 export const playerInfo = playerName => {
     store.dispatch(requestPlayer())
-    store.dispatch(foundPlayer(NBA.findPlayer(playerName)))
+        store.dispatch(foundPlayer(NBA.findPlayer(playerName)))
 }
 
 
-export const fetchPlayerStats = (name) => {
+export const fetchPlayerStats = (name) => { //split this up since there are calls to 2 different APIs
     store.dispatch(requestPlayer())
     NBA.stats.playerStats()
     .then(res => {
@@ -58,22 +52,27 @@ export const fetchPlayerStats = (name) => {
         .find(val => val.playerName === name)
     })
     .then(res => {
-        store.dispatch(foundStats(res))
-         let firstName = store.getState().firstName
-         let lastName = store.getState().lastName
-        axios.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
-        .then( res => {
-            store.dispatch(playerImage(res.request.responseURL))
+            if(res){
+            store.dispatch(foundStats(res))
+            let firstName = store.getState().firstName
+            let lastName = store.getState().lastName
+            axios.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
+            .then( res => {
+                store.dispatch(playerImage(res.request.responseURL))
+            })
         }
-    )
+        else{
+            alert("This player is inactive")
+        }
     })
     .catch((error) => {
-        alert("Somthing went wrong!")
+        store.dispatch(failurePlayer(error))
     })
 }
 
-//add error handling (in PlayerSearch store.dispatch(failurePlayer(error) when there is an error))
+//add error handling for rookies, retired players, or players that did not have a stat last year
 //throw error "player not found" instead of crashing
+//have team stats search
 //compare players stats. Green background if better, red if worse.
 //show trends from year to year
 

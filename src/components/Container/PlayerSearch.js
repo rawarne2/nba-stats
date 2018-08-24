@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { playerInfo, fetchPlayerStats, } from '../redux/actions'
+import { playerInfo, fetchPlayerStats, } from '../../redux/actions'
 import { connect } from 'react-redux'
-
+import { Button, Form } from 'react-bootstrap'
+import PlayerStats from '../Presentational/PlayerStats'
 
 export class PlayerSearch extends Component {
     constructor(props) {
@@ -23,18 +24,22 @@ export class PlayerSearch extends Component {
     render() {
         return (
             <div>
-                <p>please use correct spelling</p>
-                <form 
+            <p>Enter Player Name</p>
+                <Form 
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}>
                     <input 
                         placeholder="Player Search"
                         type="text"
                     />
-                </form>
-                <h1>Player: { this.props.fullName }</h1>
-                <h1>2017-18 Average PPG: { this.props.points } </h1>
-                <img src={this.props.playerImg} alt="" />
+                <Button onClick={this.handleSubmit}>Submit</Button>
+                </Form>
+                <PlayerStats 
+                    fullName={this.props.fullName}
+                    points={this.props.points}
+                    playerImg={this.props.playerImg}
+                    isFetching={this.props.isFetching}
+                />
             </div>
         )
     }
@@ -42,16 +47,11 @@ export class PlayerSearch extends Component {
 
 const mapStateToProps = state => {
     return {
-        playerId: state.playerId,
-        teamId: state.teamId,
         fullName: state.fullName,
-        isFeching: state.isFeching,
+        isFetching: state.isFetching,
         error: state.error,
         points: state.points,
         playerImg: state.playerImg,
-        firstName: state.firstName,
-        lastName: state.lastName,
-
     }
   }
   const mapDispatchToProps = dispatch => {
@@ -66,19 +66,13 @@ const mapStateToProps = state => {
 //shown at a time when typing in player names
 
 
-//use a separate component to display the stats <-----------
-
 
 /*
-- make in depth stats listed in a new component view
+- make in depth stats listed in a dropdown view
 - add tests
-- clean up state
-- make better action names
 - fix error handing / add form validation
-- show more button 
-- be able to sort stats in main player view
 - use bootstraps for css
-- show loading bar when searching (I know it only takes .5sec to load)
+- show more button (look at react bootstrap docs)
 */
 
 //full player stats view -- parallax scrolling?
