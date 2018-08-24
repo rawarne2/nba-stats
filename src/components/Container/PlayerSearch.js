@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { playerInfo, fetchPlayerStats, } from '../../redux/actions'
+import { playerInfo, fetchPlayerStats, fetchAllPlayers, fetchPlayerImage } from '../../redux/actions'
 import { connect } from 'react-redux'
 import { Button, Form } from 'react-bootstrap'
 import PlayerStats from '../Presentational/PlayerStats'
@@ -11,6 +11,9 @@ export class PlayerSearch extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    componentDidMount() {
+        this.props.fetchAllPlayers()
+    }
 
     handleChange (event) {
         this.props.playerInfo(event.target.value)
@@ -19,6 +22,7 @@ export class PlayerSearch extends Component {
     handleSubmit (e) {
         e.preventDefault()
         this.props.fetchPlayerStats(this.props.fullName)
+        this.props.fetchPlayerImage()
     }
 
     render() {
@@ -34,7 +38,7 @@ export class PlayerSearch extends Component {
                     />
                 <Button onClick={this.handleSubmit}>Submit</Button>
                 </Form>
-                <PlayerStats 
+                    <PlayerStats 
                     fullName={this.props.fullName}
                     points={this.props.points}
                     playerImg={this.props.playerImg}
@@ -52,15 +56,34 @@ const mapStateToProps = state => {
         error: state.error,
         points: state.points,
         playerImg: state.playerImg,
+        allPlayers: state.allPlayers
     }
   }
   const mapDispatchToProps = dispatch => {
       return {
           playerInfo,
           fetchPlayerStats,
+          fetchAllPlayers,
+          fetchPlayerImage
       }
   }
   export default connect(mapStateToProps, mapDispatchToProps)(PlayerSearch)
+
+
+
+/**
+ * Goals: error handing, change initial stats, dropdown with more stats
+ */
+
+
+
+
+
+
+
+
+
+
 
 //Because of restrictions from the stats.nba.com API and the 'nba' npm package, only one player can be 
 //shown at a time when typing in player names

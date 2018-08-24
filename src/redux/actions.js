@@ -38,32 +38,46 @@ export const playerImage = (image) => {
     }
 }
 
+export const foundAllPlayers = (players) => {
+    return {
+        type: types.FOUND_ALL_PLAYERS,
+        payload: players
+    }
+}
+
 export const playerInfo = playerName => {
     store.dispatch(requestPlayer())
-        store.dispatch(foundPlayer(NBA.findPlayer(playerName)))
+    let player = NBA.findPlayer(playerName)
+    player ? 
+        store.dispatch(foundPlayer(player)) : 
+        store.dispatch(failurePlayer("Player Not Found"))
 }
 
 
 export const fetchPlayerStats = (name) => { //split this up since there are calls to 2 different APIs
     store.dispatch(requestPlayer())
+    let player = store.getState().allPlayers.find(val => val.playerName === name)
+    store.dispatch(foundStats(player))
+}
+
+export const fetchPlayerImage = () => {
+    store.dispatch(requestPlayer())
+    let firstName = store.getState().firstName
+    let lastName = store.getState().lastName
+    axios.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
+    .then( res => {
+        store.dispatch(playerImage(res.request.responseURL))
+    })
+    .catch((error) => {
+        store.dispatch(failurePlayer(error))
+    })
+}
+
+export const fetchAllPlayers = () => {
+    store.dispatch(requestPlayer())
     NBA.stats.playerStats()
     .then(res => {
-        return res.leagueDashPlayerStats
-        .find(val => val.playerName === name)
-    })
-    .then(res => {
-            if(res){
-            store.dispatch(foundStats(res))
-            let firstName = store.getState().firstName
-            let lastName = store.getState().lastName
-            axios.get(`https://nba-players.herokuapp.com/players/${lastName}/${firstName}`)
-            .then( res => {
-                store.dispatch(playerImage(res.request.responseURL))
-            })
-        }
-        else{
-            alert("This player is inactive")
-        }
+        store.dispatch(foundAllPlayers(res.leagueDashPlayerStats))
     })
     .catch((error) => {
         store.dispatch(failurePlayer(error))
