@@ -1,1 +1,1 @@
-This site allows users to search for a variety of different stats of their favorite NBA players
+This site will allow users to search for a variety of different stats of their favorite NBA players. Visit https://nba-stats-search.herokuapp.com/
