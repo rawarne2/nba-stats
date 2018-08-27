@@ -7,6 +7,10 @@ import PlayerStats from '../Presentational/PlayerStats'
 export class PlayerSearch extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            guess: false, 
+            typedName: ''
+        }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -17,12 +21,18 @@ export class PlayerSearch extends Component {
 
     handleChange (event) {
         this.props.playerInfo(event.target.value)
+        this.setState({ typedName: event.target.value })
     }
 
-    handleSubmit (e) {
-        e.preventDefault()
+    handleSubmit (event) {
+        event.preventDefault()
         this.props.fetchPlayerStats(this.props.fullName)
         this.props.fetchPlayerImage()
+        console.log(this.state.typedName.toLowerCase(), this.props.fullName.slice(0, this.state.typedName.length).toLowerCase())
+        if (this.state.typedName.toLowerCase() !== this.props.fullName.slice(0, this.state.typedName.length).toLowerCase()) {
+            this.setState({ guess: true })
+        }
+        else this.setState({ guess: false })
     }
 
     render() {
@@ -38,7 +48,8 @@ export class PlayerSearch extends Component {
                     />
                 <Button onClick={this.handleSubmit}>Submit</Button>
                 </Form>
-                    <PlayerStats 
+                {this.state.guess ? <h3>Best Guess Below</h3> : null}
+                <PlayerStats 
                     fullName={this.props.fullName}
                     points={this.props.points}
                     playerImg={this.props.playerImg}

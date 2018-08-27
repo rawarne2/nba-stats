@@ -11,7 +11,8 @@ describe('reducers', () => {
             isFetching: false,
             error: '',
             points: 0,
-            playerImg: null
+            playerImg: null,
+            allPlayers: []
           })
     })
 })
