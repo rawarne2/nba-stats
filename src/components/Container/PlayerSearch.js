@@ -3,6 +3,7 @@ import { playerInfo, fetchPlayerStats, fetchAllPlayers, fetchPlayerImage } from 
 import { connect } from 'react-redux'
 import { Button, Form } from 'react-bootstrap'
 import PlayerStats from '../Presentational/PlayerStats'
+import PropTypes from 'prop-types'
 
 export class PlayerSearch extends Component {
     constructor(props) {
@@ -78,6 +79,16 @@ const mapStateToProps = state => {
           fetchPlayerImage
       }
   }
+
+  PlayerSearch.propTypes = {
+      fullName: PropTypes.string, 
+      isFetching: PropTypes.bool, 
+      error: PropTypes.string, 
+      points: PropTypes.number,
+      playerImg: PropTypes.string,
+      allPlayers: PropTypes.array
+  }
+
   export default connect(mapStateToProps, mapDispatchToProps)(PlayerSearch)
 
 
