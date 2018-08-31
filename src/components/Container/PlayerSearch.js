@@ -29,7 +29,6 @@ export class PlayerSearch extends Component {
         event.preventDefault()
         this.props.fetchPlayerStats(this.props.fullName)
         this.props.fetchPlayerImage()
-        console.log(this.state.typedName.toLowerCase(), this.props.fullName.slice(0, this.state.typedName.length).toLowerCase())
         if (this.state.typedName.toLowerCase() !== this.props.fullName.slice(0, this.state.typedName.length).toLowerCase()) {
             this.setState({ guess: true })
         }
@@ -38,7 +37,7 @@ export class PlayerSearch extends Component {
 
     render() {
         return (
-            <div>
+            <div className="PlayerSearch">
             <p>Enter Player Name</p>
                 <Form 
                     onSubmit={this.handleSubmit}
@@ -52,9 +51,11 @@ export class PlayerSearch extends Component {
                 {this.state.guess ? <h3>Best Guess Below</h3> : null}
                 <PlayerStats 
                     fullName={this.props.fullName}
-                    points={this.props.points}
+                    pStats={this.props.pStats}
                     playerImg={this.props.playerImg}
                     isFetching={this.props.isFetching}
+                    striped={this.props.striped}
+                    bordered={this.props.bordered}
                 />
             </div>
         )
@@ -66,7 +67,7 @@ const mapStateToProps = state => {
         fullName: state.fullName,
         isFetching: state.isFetching,
         error: state.error,
-        points: state.points,
+        pStats: state.pStats,
         playerImg: state.playerImg,
         allPlayers: state.allPlayers
     }
@@ -84,7 +85,7 @@ const mapStateToProps = state => {
       fullName: PropTypes.string, 
       isFetching: PropTypes.bool, 
       error: PropTypes.string, 
-      points: PropTypes.number,
+      pStats: PropTypes.object,
       playerImg: PropTypes.string,
       allPlayers: PropTypes.array
   }

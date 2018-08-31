@@ -10,7 +10,7 @@ describe('reducers', () => {
             fullName: '',
             isFetching: false,
             error: '',
-            points: 0,
+            pStats: {},
             playerImg: null,
             allPlayers: []
           })

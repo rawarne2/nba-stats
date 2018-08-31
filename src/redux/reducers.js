@@ -6,7 +6,7 @@ const initialState = {
     fullName: '',
     isFetching: false,
     error: '',
-    points: 0,
+    pStats: {},
     playerImg: null,
     allPlayers: []
   }
@@ -34,7 +34,7 @@ const playerInfoReducer = (state = initialState, action) => {
       case "FOUND_STATS": 
         return Object.assign({}, state, {
             isFetching: false, 
-            points: action.payload.pts
+            pStats: action.payload
           })
       case "PLAYER_IMAGE":
         return Object.assign({}, state, {
