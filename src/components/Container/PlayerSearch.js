@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { playerInfo, fetchPlayerStats, fetchAllPlayers, fetchPlayerImage } from '../../redux/actions'
 import { connect } from 'react-redux'
-import { Button, Form } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import { Typeahead } from 'react-bootstrap-typeahead'
 import PlayerStats from '../Presentational/PlayerStats'
 import PropTypes from 'prop-types'
 
@@ -20,34 +21,40 @@ export class PlayerSearch extends Component {
         this.props.fetchAllPlayers()
     }
 
-    handleChange (event) {
-        this.props.playerInfo(event.target.value)
-        this.setState({ typedName: event.target.value })
+    handleChange (input) {
+        if(input){
+            this.props.playerInfo(input)
+        }
+        this.setState({ typedName: input })
+        console.log(input)
     }
 
     handleSubmit (event) {
-        event.preventDefault()
+        this.props.playerInfo(this.state.typedName)
         this.props.fetchPlayerStats(this.props.fullName)
         this.props.fetchPlayerImage()
         if (this.state.typedName.toLowerCase() !== this.props.fullName.slice(0, this.state.typedName.length).toLowerCase()) {
             this.setState({ guess: true })
         }
-        else this.setState({ guess: false })
+        else {
+            this.setState({ guess: false })
+        }
+        this.setState({ typedName: '' })
     }
 
     render() {
         return (
             <div className="PlayerSearch">
             <p>Enter Player Name</p>
-                <Form 
+                <Typeahead className="Search"
+                    placeholder="Player Search"
+                    options={this.props.allPlayers.map(player => player.playerName)}
+                    selectHintOnEnter
                     onSubmit={this.handleSubmit}
-                    onChange={this.handleChange}>
-                    <input 
-                        placeholder="Player Search"
-                        type="text"
-                    />
+                    onInputChange={this.handleChange}
+                    clearButton
+                />
                 <Button onClick={this.handleSubmit}>Submit</Button>
-                </Form>
                 {this.state.guess ? <h3>Best Guess Below</h3> : null}
                 <PlayerStats 
                     fullName={this.props.fullName}
@@ -97,19 +104,6 @@ const mapStateToProps = state => {
 /**
  * Goals: error handing, change initial stats, dropdown with more stats
  */
-
-
-
-
-
-
-
-
-
-
-
-//Because of restrictions from the stats.nba.com API and the 'nba' npm package, only one player can be 
-//shown at a time when typing in player names
 
 
 

@@ -26,8 +26,15 @@ th {
   text-align: center;
 }
 
-.TableBox {
-  margin: 0vw 15vw;
+.Search {
+  margin: 0vw 10vw;
+}
+
+
+.PlayerSearch {
+  border: orange solid;
+  border-width: 0vw 15vw;
+  height: 100vh;
 }
 
 @keyframes App-logo-spin {

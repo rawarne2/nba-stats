@@ -1,10 +1,5 @@
 import React from 'react'
-// import { Table } from 'react-bootstrap'
 let Table = require('react-bootstrap').Table
-
-let image = props => (props.isFetching ? 
-    <h3>Loading Image...</h3> : 
-    <img src={props.playerImg} alt="" />)
 
 const PlayerStats = props => (
     <div className="TableBox">
@@ -22,7 +17,7 @@ const PlayerStats = props => (
         </thead>
         <tbody>
             <tr>
-                <td>{props.fullName}</td>
+                <td>{props.pStats.playerName}</td>
                 <td>{props.pStats.age}</td>
                 <td>{props.pStats.pts}</td>
                 <td>{props.pStats.reb}</td>
@@ -34,19 +29,7 @@ const PlayerStats = props => (
         <h3>Loading Image...</h3> : 
         <img src={props.playerImg} alt="" />}
     </div>
-    : 
-    <Table  striped bordered condensed hover responsive>
-        <thead>
-            <tr>
-                <th>Player</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{props.fullName}</td>
-            </tr>
-        </tbody>
-    </Table>
+    : null
     }
     </div>
 )
