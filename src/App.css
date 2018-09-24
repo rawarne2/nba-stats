@@ -37,6 +37,13 @@ th {
   height: 100vh;
 }
 
+.PlayerImage {
+  height: 75%;
+  width: 75%;
+  max-width: 450px;
+  max-height: 450px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

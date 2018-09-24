@@ -85,7 +85,7 @@ export const fetchAllPlayers = () => {
 }
 
 //add error handling for rookies, retired players, or players that did not have a stat last year
-//throw error "player not found" instead of crashing
+
 //have team stats search
 //compare players stats. Green background if better, red if worse.
 //show trends from year to year

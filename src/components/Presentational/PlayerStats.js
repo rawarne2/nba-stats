@@ -27,7 +27,7 @@ const PlayerStats = props => (
     </Table>
     {props.isFetching ? 
         <h3>Loading Image...</h3> : 
-        <img src={props.playerImg} alt="" />}
+        <img className="PlayerImage" src={props.playerImg} alt="" />}
     </div>
     : null
     }

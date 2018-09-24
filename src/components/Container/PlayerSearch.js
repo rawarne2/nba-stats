@@ -10,7 +10,7 @@ export class PlayerSearch extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            guess: false, 
+            noFound: false, 
             typedName: ''
         }
         this.handleChange = this.handleChange.bind(this)
@@ -21,25 +21,23 @@ export class PlayerSearch extends Component {
         this.props.fetchAllPlayers()
     }
 
+    
     handleChange (input) {
-        if(input){
-            this.props.playerInfo(input)
-        }
-        this.setState({ typedName: input })
-        console.log(input)
+        let val = document.getElementsByClassName('rbt-input-main')[0].value
+            this.setState({ typedName: val })
     }
 
     handleSubmit (event) {
-        this.props.playerInfo(this.state.typedName)
-        this.props.fetchPlayerStats(this.props.fullName)
-        this.props.fetchPlayerImage()
-        if (this.state.typedName.toLowerCase() !== this.props.fullName.slice(0, this.state.typedName.length).toLowerCase()) {
-            this.setState({ guess: true })
+        if(this.props.allPlayers.map(player => player.playerName).indexOf(this.state.typedName) === -1){
+            this.setState({ noFound: true })
         }
         else {
-            this.setState({ guess: false })
+            this.props.playerInfo(this.state.typedName)
+            this.props.fetchPlayerStats(this.state.typedName)
+            this.props.fetchPlayerImage()
+            this.setState({ noFound: false })
         }
-        this.setState({ typedName: '' })
+
     }
 
     render() {
@@ -50,12 +48,13 @@ export class PlayerSearch extends Component {
                     placeholder="Player Search"
                     options={this.props.allPlayers.map(player => player.playerName)}
                     selectHintOnEnter
-                    onSubmit={this.handleSubmit}
                     onInputChange={this.handleChange}
                     clearButton
+                    onBlur={this.handleChange}
+                    onSubmit={this.handleSubmit}
                 />
                 <Button onClick={this.handleSubmit}>Submit</Button>
-                {this.state.guess ? <h3>Best Guess Below</h3> : null}
+                {this.state.noFound ? <h1>PLAYER NOT FOUND</h1> : null}
                 <PlayerStats 
                     fullName={this.props.fullName}
                     pStats={this.props.pStats}
@@ -101,9 +100,7 @@ const mapStateToProps = state => {
 
 
 
-/**
- * Goals: error handing, change initial stats, dropdown with more stats
- */
+//if player is not found then it uses previously entered player ex: aaron jackson
 
 
 
@@ -111,7 +108,6 @@ const mapStateToProps = state => {
 - make in depth stats listed in a dropdown view
 - add tests
 - fix error handing / add form validation
-- use bootstraps for css
 - show more button (look at react bootstrap docs)
 */
 
