@@ -22,7 +22,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --watch",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "serve": "serve -s build"
   },
   "engines": {
     "node": "20.13.1"
