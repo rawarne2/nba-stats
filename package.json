@@ -22,8 +22,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --watch",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "serve -s build",
-    "serve": "serve -s build",
     "start:heroku": "serve -s build -l $PORT"
   },
   "engines": {
