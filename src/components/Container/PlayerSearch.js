@@ -25,7 +25,8 @@ export class PlayerSearch extends Component {
   render() {
     return (
       <div className='PlayerSearch'>
-        <p>Enter Player Name</p>
+        <h2>Enter a Player Name</h2>
+        <h4>2023-2024 Season</h4>
         <Typeahead
           className='Search'
           placeholder='Player Search'
